@@ -13,7 +13,7 @@ public class Calculator
     {
         engine = new CalcEngine();
      //   gui = new UserInterfaceDifferentBases(engine);
-        gui = new UserInterfaceHex(engine);
+        gui = new UserInterface(engine);
       //gui = new UserInterface(engine);
     }
 

@@ -46,8 +46,8 @@ public class UserInterface
     {
         calc = engine;
         showingAuthor = true;
-      //  makeFrame();
-        //frame.setVisible(true);
+       makeFrame();
+      frame.setVisible(true);
        
     }
 
