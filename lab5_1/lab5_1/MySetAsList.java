@@ -5,9 +5,8 @@ public class MySetAsList<T> implements MySet<T> {
     // for our application we don't need to know whether the elements are ordered or not...
      private MyLinkedList<T> setList;
      private int size;
-    //MySetAsList test = new MySetAsList();
 
-    // constructor
+     // constructor
 
     public MySetAsList(){
         this.setList = new MyLinkedList<>();
@@ -60,7 +59,6 @@ public class MySetAsList<T> implements MySet<T> {
 
         // update size:
         size = setList.length;
-
     }
 
     @Override
@@ -109,7 +107,6 @@ public class MySetAsList<T> implements MySet<T> {
                     dupl = true; // we have to work with flags to avoid messing around with iterator
                 }
             }
-
             if (dupl == true){
                 setList.remove(elem);
             }
@@ -120,16 +117,21 @@ public class MySetAsList<T> implements MySet<T> {
 
     @Override
     public String listElements() {
-        String fullSet = "{";
-        for (int i = 1; i <= setList.length; i++) {
-            if (i == setList.length){
-                fullSet += (int)setList.get(i) + "}";
-            } else {
-                fullSet += (int)setList.get(i) + ", ";
+        String fullSet = "";
+        if (this.size == 0) {
+            return "{ }";
+        } else {
+            for (int i = 1; i <= setList.length; i++) {
+                if (i == setList.length) {
+                    fullSet += (int) setList.get(i) + " }";
+                }
+                if (i == 1) {
+                    fullSet += "{ " + (int) setList.get(i);
+                } else {
+                    fullSet += (int) setList.get(i) + ", ";
+                }
             }
+            return fullSet;
         }
-        return fullSet;
     }
-
-
 }
