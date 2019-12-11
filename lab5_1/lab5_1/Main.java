@@ -10,7 +10,7 @@ public class Main {
         int c = 3;
 
         int d = 4;
-        int    e = 5;
+        int e = 5;
         int f = 2;
 
 
@@ -21,18 +21,15 @@ public class Main {
         setTwo.addElement(e);
         setTwo.addElement(a);
 
+        System.out.println("set one:");
         System.out.println(setOne.listElements());
 
-        System.out.println(setOne.isElement(a));
+        System.out.println("set two:");
+        System.out.println(setTwo.listElements());
 
-        setOne.union(setTwo);
-
-        System.out.println(setOne.listElements());
-
-        setOne.intersection(setTwo);
-
-        System.out.println("intersection of One and Two");
-        System.out.println(setOne.listElements());
+        System.out.println("set one - set two");
+        setTwo.subtract(setOne);
+        System.out.println(setTwo.listElements());
 
     }
 }

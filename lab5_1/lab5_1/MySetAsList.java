@@ -14,9 +14,6 @@ public class MySetAsList<T> implements MySet<T> {
         this.size = setList.length;
     }
 
-
-
-
     @Override
     public int size() {
         return size;
@@ -95,6 +92,28 @@ public class MySetAsList<T> implements MySet<T> {
         }
         // our linked list structure is now the new established set of intersected elements
         setList = tmp;
+        // update size:
+        size = setList.length;
+    }
+
+    @Override
+    public void subtract(MySetAsList s) {
+
+        // compare one element of second set to each element of first set at a time
+        for (int i = 1; i <= s.size; i++){
+            T elem = (T) s.getElem(i);
+            boolean dupl = false;
+
+            for (int j = 1; j <= setList.length; j++){
+                if (elem == setList.get(j)){
+                    dupl = true; // we have to work with flags to avoid messing around with iterator
+                }
+            }
+
+            if (dupl == true){
+                setList.remove(elem);
+            }
+        }
         // update size:
         size = setList.length;
     }
