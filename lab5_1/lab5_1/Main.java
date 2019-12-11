@@ -21,19 +21,18 @@ public class Main {
         setTwo.addElement(e);
         setTwo.addElement(a);
 
-        for (int i = 1; i <= setOne.size(); i++) {
-            int element = (int)setOne.getElem(i);
-            System.out.println(element);
-        }
+        System.out.println(setOne.listElements());
 
         System.out.println(setOne.isElement(a));
 
         setOne.union(setTwo);
 
-        for (int i = 1; i <= setOne.size(); i++) {
-            int element = (int)setOne.getElem(i);
-            System.out.println(element);
-        }
+        System.out.println(setOne.listElements());
+
+        setOne.intersection(setTwo);
+
+        System.out.println("intersection of One and Two");
+        System.out.println(setOne.listElements());
 
     }
 }

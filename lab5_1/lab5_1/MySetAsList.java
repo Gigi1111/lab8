@@ -32,25 +32,28 @@ public class MySetAsList<T> implements MySet<T> {
     public void union(MySetAsList s) {
         // union of sets can not have double elements!
 
-        // add all elements from second set
+        // compare one element of second set to each element of first set at a time
         for (int i = 1; i <= s.size; i++){
             T elem = (T) s.getElem(i);
-            setList.add(elem);
-        }
-        // filter dublicates
-        for (int i = 1; i <= setList.length; i++) {
+            boolean dupl = false;
+
             for (int j = 1; j <= setList.length; j++){
-                if (setList.get(i) == setList.get(j) && i != j){
-                    setList.remove(i);
-                    size--;
+                if (elem == setList.get(j)){
+                    dupl = true; // set duplicate flag to true if one is found
                 }
             }
+
+            if (dupl == false) {
+                setList.add(elem); // add element from second set if it is unique
+            }
+
         }
         // update size:
         size = setList.length;
     }
 
-    public Object getElem(int i) {
+    // helper function to extract elements out of sets by idx
+    private Object getElem(int i) {
         return setList.get(i);
     }
 
@@ -76,20 +79,38 @@ public class MySetAsList<T> implements MySet<T> {
 
     @Override
     public void intersection(MySetAsList s) {
-        // add all elements from second set
+        // creating an empty temporary list for duplicate elements
+        MyLinkedList tmp = new MyLinkedList();
+
+        // compare every element of second set to every element of first set
+        // if it is present in both, add it to the temporary list
         for (int i = 1; i <= s.size; i++){
             T elem = (T) s.getElem(i);
-            setList.add(elem);
-        }
-        // look for dublicates and let them remain in the set
-        for (int i = 1; i <= setList.length; i++) {
+
             for (int j = 1; j <= setList.length; j++){
-                if (setList.get(i) != setList.get(j) && i == j){
-                    setList.remove(i);
+                if (elem == setList.get(j)){
+                   tmp.add(elem);
                 }
             }
         }
+        // our linked list structure is now the new established set of intersected elements
+        setList = tmp;
         // update size:
         size = setList.length;
     }
+
+    @Override
+    public String listElements() {
+        String fullSet = "{";
+        for (int i = 1; i <= setList.length; i++) {
+            if (i == setList.length){
+                fullSet += (int)setList.get(i) + "}";
+            } else {
+                fullSet += (int)setList.get(i) + ", ";
+            }
+        }
+        return fullSet;
+    }
+
+
 }

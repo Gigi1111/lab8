@@ -8,5 +8,6 @@ public interface MySet<T>{
     public void remove(T o);
     public boolean isElement(T o);
     public void intersection(MySetAsList s);
+    public String listElements();
 
 }
