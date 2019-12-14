@@ -19,6 +19,10 @@ public class CalcEngine
     private int leftOperand;
     private int base=10;
 
+    private String operator="";
+    MySetAsList<String> s1,s2;
+    
+    
     /**
      * Create a CalcEngine.
      */
@@ -68,7 +72,11 @@ public class CalcEngine
     {
         applyOperator('+');
     }
-
+    public void union()
+    {
+        applyOperator('∪');
+    }
+    
     /**
      * The 'minus' button was pressed.
      */
@@ -89,14 +97,75 @@ public class CalcEngine
     /**
      * The '=' button was pressed.
      */
-    public void equals(int base)
+    public void equals()
     {
-    	display = Postfix.evaluate(Postfix.infixToPostfix(display),base);
-    	
-    	System.out.println("displayValue: "+display);
-    	
+    	//get two sets
+    	getTwoSets();
+    	//if valid
+    	if(validExpression()) {
+    		//apply operator
+    		calculateResult();
+    	}   	
+    	    	
     }
-    public int getBase() {
+    public void getTwoSets() {
+    	int end=display.indexOf("}");
+    	s1=getSet(display.substring(0,end+1));
+    	s2=getSet(display.substring(end+2));
+    }
+    
+    private MySetAsList<String> getSet(String s) {//{1,1}+{
+		int i=s.indexOf("{");
+		int j=s.indexOf("}");
+		 MySetAsList<String> set=new MySetAsList<String>(); 
+		if(i>-1 && j>-1) {
+			String str1 = s.substring(i+1,j);
+			String[] elements = str1.split(",");
+			for(String ele : elements) {
+				set.add(ele);
+			}
+			return set;
+		}
+		System.out.println("Sets should look like this {1,2,3...}, try again!");
+		return null;
+		
+		
+	}
+    
+    public boolean validExpression() {
+    	//check if it's a valid expression
+    	//1. if there are two sets
+    	//2. if there's an operator
+    	//3. if the operator is between }and{
+    	return s1!=null && s2!= null && operator!="";
+    }
+    public void setOperator(String op) {
+    	if(operator=="")operator=op;
+    	else {
+    		System.out.println("More than one operator Error!");
+    	}
+    }
+    
+    public void getNumberOfElement(){
+    	//! display =""+MySetAsList.size();
+    	MySetAsList s=getSet(display);
+    	if(s==null) display+=" has no element";
+    	else
+    		display+=" has "+s.getSize()+" element(s)";
+    }
+    
+    
+    public void getPowerSet(){
+    	//! display =""+MySetAsList.size();
+    	MySetAsList s=getSet(display);
+    	if(s==null) display+=" has no power sets";
+    	else {
+    		display+=" has "+Math.pow(2, s.getSize())+" power sets:";
+    		display+=s.powerSet();
+    	}
+    }
+
+	public int getBase() {
     	return base;
     }
     /**
@@ -105,10 +174,7 @@ public class CalcEngine
      */
     public void clear()
     {
-        lastOperator = '?';
-        haveLeftOperand = false;
-        buildingDisplayValue = false;
-        displayValue = 0;
+    	operator="";
         display="";
     }
 
@@ -144,28 +210,18 @@ public class CalcEngine
      */
     private void calculateResult()
     {
-        switch(lastOperator) {
+    	
+        switch(operator.charAt(0)) {
             case '+':
-                displayValue = leftOperand + displayValue;
-                haveLeftOperand = true;
-                leftOperand = displayValue;
+                display+="="+ s1.union(s2).listElements();
                 break;
             case '-':
-                displayValue = leftOperand - displayValue;
-                haveLeftOperand = true;
-                leftOperand = displayValue;
+            	display+="="+ s1.subtract(s2).listElements();
                 break;
-            case '*':
-                displayValue = leftOperand * displayValue;
-                haveLeftOperand = true;
-                leftOperand = displayValue;
+            case '∩':
+            	display+="="+ s1.intersection(s2).listElements();
                 break;
-            case '/':
-                displayValue = leftOperand / displayValue;
-                haveLeftOperand = true;
-                leftOperand = displayValue;
-                break;
-       
+           
           default:
                 keySequenceError();
                 break;
@@ -200,7 +256,10 @@ public class CalcEngine
         lastOperator = operator;
         buildingDisplayValue = false;
     }
-
+    public void displayAppend(String command) {
+		
+		display +=command;
+	}
     /**
      * Report an error in the sequence of keys that was pressed.
      */
@@ -211,10 +270,7 @@ public class CalcEngine
         clear();
     }
 
-	public void displayAppend(String command) {
-		// TODO Auto-generated method stub
-		display +=command;
-	}
+	
 
 	
 }

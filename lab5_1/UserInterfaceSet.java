@@ -18,36 +18,19 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-/**
- * A graphical user interface for the calculator. No calculation is being
- * done here. This class is responsible just for putting up the display on 
- * screen. It then refers to the "CalcEngine" to do all the real work.
- * 
- * @author David J. Barnes and Michael Kolling
- * @version 2008.03.30
- */
-public class UserInterface
-    implements ActionListener
-{
-    protected CalcEngine calc;
-    private boolean showingAuthor;
 
-    protected JFrame frame;
-    protected JTextField display;
-    protected JLabel status;
-    //!
-    protected JPanel contentPane;
-    protected  JPanel buttonPanel;
-    /**
-     * Create a user interface.
-     * @param engine The calculator engine.
-     */
-    public UserInterface(CalcEngine engine)
+public class UserInterfaceSet
+extends UserInterface 
+{
+	JTextArea display;
+	String operators="∩+-p";
+   
+    public UserInterfaceSet(CalcEngine engine)
     {
+    	super(engine);
         calc = engine;
-        showingAuthor = true;
        makeFrame();
-      frame.setVisible(true);
+       frame.setVisible(true);
        
     }
 
@@ -65,40 +48,54 @@ public class UserInterface
      */
     private void makeFrame()
     {
-    	 System.out.println("inframenonHex");
         frame = new JFrame(calc.getTitle());
         
         contentPane = (JPanel)frame.getContentPane();
         contentPane.setLayout(new BorderLayout(8, 8));
         contentPane.setBorder(new EmptyBorder( 10, 10, 10, 10));
 
-        display = new JTextField();
+        display = new JTextArea();
         contentPane.add(display, BorderLayout.NORTH);
 
-        buttonPanel = new JPanel(new GridLayout(5, 4));
-            addButton(buttonPanel, "7");
-            addButton(buttonPanel, "8");
-            addButton(buttonPanel, "9");
-            addButton(buttonPanel, "C");
+        buttonPanel = new JPanel(new GridLayout(4, 6));
+           
+           
             
-            addButton(buttonPanel, "4");
-            addButton(buttonPanel, "5");
-            addButton(buttonPanel, "6");
-            addButton(buttonPanel, "?");
-            
-            addButton(buttonPanel, "0");
+           
             addButton(buttonPanel, "1");
             addButton(buttonPanel, "2");
             addButton(buttonPanel, "3");
-          
+            addButton(buttonPanel, "4");
+            addButton(buttonPanel, "5");
+            buttonPanel.add(new JLabel(" "));
             
-            addButton(buttonPanel, "*");
+            addButton(buttonPanel, "6");
+            addButton(buttonPanel, "7");
+            addButton(buttonPanel, "8");
+            addButton(buttonPanel, "9");
+            addButton(buttonPanel, "0");
+            buttonPanel.add(new JLabel(" "));
+            
             addButton(buttonPanel, "+");
             addButton(buttonPanel, "-");
-            addButton(buttonPanel, "/");
-       addButton(buttonPanel, "=");
-       
+            addButton(buttonPanel, "âˆ©");
+            addButton(buttonPanel, "=");
+            addButton(buttonPanel, "Cl");
+            addButton(buttonPanel, "?");
             
+            addButton(buttonPanel, "{");
+            addButton(buttonPanel, "}");
+            addButton(buttonPanel, ",");
+            addButton(buttonPanel, "p");//power
+            addButton(buttonPanel, "n");//how many element
+            
+              
+             
+            
+             
+            
+       
+
             
         contentPane.add(buttonPanel, BorderLayout.CENTER);
 
@@ -128,21 +125,35 @@ public class UserInterface
     public void actionPerformed(ActionEvent event)
     {
         String command = event.getActionCommand();
-
-
+        
         
         if(command.equals("=")) {
-            calc.equals(10);
+            calc.equals();
         }
-        
-        else if(command.equals("C")) {
+        else if(command.equals("n")) {
+            calc.getNumberOfElement();
+        }
+        else if(command.equals("p")) {
+            calc.getPowerSet();
+        }
+        else if(command.equals("Cl")) {
             calc.clear();
         }
         else if(command.equals("?")) {
             showInfo();
         }
+//        else if(operators.contains(command)) {
+//        	//before and after command
+//        	calc.setOperator(command);
+//        }
         else{
+        	
         	calc.displayAppend(command);
+        	if(operators.contains(command)
+        			&&//it's }- or }+ instead of just a "-1" element
+        		calc.getDisplay().indexOf("}")==calc.getDisplay().indexOf(command)-1) {
+        			    		calc.setOperator(command);
+            	}
         }
         // else unknown command.
 
@@ -165,18 +176,6 @@ public class UserInterface
 //    	}
     }
 
-    /**
-     * Toggle the info display in the calculator's status area between the
-     * author and version information.
-     */
-    protected void showInfo()
-    {
-        if(showingAuthor)
-            status.setText(calc.getVersion());
-        else
-            status.setText(calc.getAuthor());
-
-        showingAuthor = !showingAuthor;
-    }
+   
 }
 

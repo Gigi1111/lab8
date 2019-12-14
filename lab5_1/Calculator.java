@@ -5,16 +5,14 @@ public class Calculator
 	
     private CalcEngine engine;
  
-    private UserInterface gui;
+    private UserInterfaceSet gui;
     /**
      * Create a new calculator and show it.
      */
     public Calculator()
     {
         engine = new CalcEngine();
-     //   gui = new UserInterfaceDifferentBases(engine);
-        gui = new UserInterface(engine);
-      //gui = new UserInterface(engine);
+        gui = new UserInterfaceSet(engine);
     }
 
     /**

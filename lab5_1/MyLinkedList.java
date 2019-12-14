@@ -36,6 +36,16 @@ public class MyLinkedList<T> {
 		}
 		return g.data;
 	}
+	public int get(T d) {
+		
+		if(length==0) return -1;
+		MyNode<T> g=head;
+		for(int i=0;i<length && g!=null;i++) {
+			if(g.data.equals(d))return i;
+			g=g.next;
+		}
+		return -1;
+	}
 	public T remove(T targetData) {
 		MyNode<T> popped=null;
 		if(length==0) return null;
@@ -62,6 +72,17 @@ public class MyLinkedList<T> {
 		//found
 		return (T) popped.data;
 	}	
+	 public String toString() {
+	    	MyNode<T> n = head;
+	    	String s="";
+	    	for(int i=1; i<=length ;i++) {
+	    		if( n!=null) {
+	    		s=s+n.data+" ";
+	    		n=n.next;
+	    		}
+	    	}
+		    return s;
+	    }
 	public T remove(int idx) {
 		MyNode<T> popped=null;
 		if(length==0) return null;
