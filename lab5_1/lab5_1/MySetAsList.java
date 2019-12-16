@@ -20,8 +20,10 @@ public class MySetAsList<T> implements MySet<T> {
 
     @Override
     public void addElement(T o) {
-        setList.add(o);
-        size = setList.length;
+        if(!isElement(o)) {
+            setList.add(o);
+            size = setList.length;
+        }
     }
 
     @Override
