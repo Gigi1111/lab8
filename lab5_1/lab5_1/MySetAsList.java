@@ -25,27 +25,37 @@ public class MySetAsList<T> implements MySet<T> {
     }
 
     @Override
-    public void union(MySetAsList s) {
+    public MySetAsList<T> union(MySetAsList s) {
         // union of sets can not have double elements!
+
+        // create new return set:
+        MySetAsList<T> uni = new MySetAsList<>();
+
+        // copy all elements from invoking set into return set:
+
+        for (int i = 1; i <= setList.length; i++){
+            uni.addElement(setList.get(i));
+            uni.size++;
+        }
 
         // compare one element of second set to each element of first set at a time
         for (int i = 1; i <= s.size; i++){
             T elem = (T) s.getElem(i);
             boolean dupl = false;
 
-            for (int j = 1; j <= setList.length; j++){
-                if (elem == setList.get(j)){
+            for (int j = 1; j <= uni.size; j++){
+                if (elem == uni.getElem(j)){
                     dupl = true; // set duplicate flag to true if one is found
                 }
             }
 
             if (dupl == false) {
-                setList.add(elem); // add element from second set if it is unique
+                uni.addElement(elem); // add element from second set if it is unique
             }
 
         }
-        // update size:
-        size = setList.length;
+
+        return uni;
     }
 
     // helper function to extract elements out of sets by idx
@@ -73,65 +83,65 @@ public class MySetAsList<T> implements MySet<T> {
     }
 
     @Override
-    public void intersection(MySetAsList s) {
-        // creating an empty temporary list for duplicate elements
-        MyLinkedList tmp = new MyLinkedList();
+    public MySetAsList<T> intersection(MySetAsList s) {
+
+        // create new return set:
+        MySetAsList<T> inter = new MySetAsList<>();
 
         // compare every element of second set to every element of first set
         // if it is present in both, add it to the temporary list
         for (int i = 1; i <= s.size; i++){
             T elem = (T) s.getElem(i);
 
-            for (int j = 1; j <= setList.length; j++){
-                if (elem == setList.get(j)){
-                   tmp.add(elem);
+            for (int j = 1; j <= inter.size; j++){
+                if (elem == inter.getElem(j)){
+                   inter.addElement(elem);
                 }
             }
         }
-        // our linked list structure is now the new established set of intersected elements
-        setList = tmp;
-        // update size:
-        size = setList.length;
+        return inter;
     }
 
     @Override
-    public void subtract(MySetAsList s) {
+    public MySetAsList<T> subtract(MySetAsList s) {
+
+        // create new return set, based on the invoking set object:
+        MySetAsList<T> sub = new MySetAsList<>();
+        sub.setList = this.setList;
+        sub.size = this.size;
 
         // compare one element of second set to each element of first set at a time
         for (int i = 1; i <= s.size; i++){
             T elem = (T) s.getElem(i);
             boolean dupl = false;
 
-            for (int j = 1; j <= setList.length; j++){
-                if (elem == setList.get(j)){
+            for (int j = 1; j <= sub.setList.length; j++){
+                if (elem == sub.setList.get(j)){
                     dupl = true; // we have to work with flags to avoid messing around with iterator
                 }
             }
             if (dupl == true){
-                setList.remove(elem);
+                sub.remove(elem);
             }
         }
-        // update size:
-        size = setList.length;
+        return sub;
     }
 
     @Override
-    public String listElements() {
+    public void listElements() {
         String fullSet = "";
         if (this.size == 0) {
-            return "{ }";
+            fullSet= "{ }";
         } else {
             for (int i = 1; i <= setList.length; i++) {
-                if (i == setList.length) {
-                    fullSet += (int) setList.get(i) + " }";
-                }
                 if (i == 1) {
-                    fullSet += "{ " + (int) setList.get(i);
+                    fullSet += "{ " + setList.get(i);
                 } else {
-                    fullSet += (int) setList.get(i) + ", ";
+                    fullSet += ", " + setList.get(i);
                 }
             }
-            return fullSet;
+            fullSet += " }";
+            System.out.println(fullSet);
         }
     }
 }

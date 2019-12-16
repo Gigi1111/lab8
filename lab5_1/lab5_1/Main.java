@@ -2,34 +2,29 @@ package lab5_1;
 
 public class Main {
     public static void main (String[] args) {
-        MySetAsList setOne = new MySetAsList();
-        MySetAsList setTwo = new MySetAsList();
-
-        int a = 1;
-        int b = 2;
-        int c = 3;
-
-        int d = 4;
-        int e = 5;
-        int f = 2;
+        MySetAsList<String> setOne = new MySetAsList();
+        MySetAsList<String> setTwo = new MySetAsList();
+        MySetAsList<String> setThree = new MySetAsList();
 
 
-        setOne.addElement(a);
-        setOne.addElement(b);
 
-        setTwo.addElement(d);
-        setTwo.addElement(e);
-        setTwo.addElement(a);
+        setOne.addElement("A");
+        setOne.addElement("B");
+
+        setTwo.addElement("D");
+        setTwo.addElement("E");
+        setTwo.addElement("A");
 
         System.out.println("set one:");
-        System.out.println(setOne.listElements());
+        setOne.listElements();
+        System.out.println(setOne.size());
 
         System.out.println("set two:");
-        System.out.println(setTwo.listElements());
+        setTwo.listElements();
 
         System.out.println("set one - set two");
-        setTwo.subtract(setOne);
-        System.out.println(setTwo.listElements());
+        setThree = setTwo.subtract(setOne);
+        setThree.listElements();
 
     }
 }
