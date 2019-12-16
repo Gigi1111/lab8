@@ -8,5 +8,5 @@ public interface MySet<T>{
     public MySetAsList<T> subtract(MySetAsList s);
     public void remove(T o);
     public boolean isElement(T o);
-    public void listElements();
+    public String listElements();
 }

@@ -130,20 +130,21 @@ public class MySetAsList<T> implements MySet<T> {
     }
 
     @Override
-    public void listElements() {
+    public String listElements() {
         String fullSet = "";
         if (this.size == 0) {
-            fullSet= "{ }";
+            fullSet= "{}";
         } else {
             for (int i = 1; i <= setList.length; i++) {
                 if (i == 1) {
-                    fullSet += "{ " + setList.get(i);
+                    fullSet += "{" + setList.get(i);
                 } else {
-                    fullSet += ", " + setList.get(i);
+                    fullSet += "," + setList.get(i);
                 }
             }
-            fullSet += " }";
-            System.out.println(fullSet);
+            fullSet += "}";
         }
+        return fullSet;
     }
+
 }
